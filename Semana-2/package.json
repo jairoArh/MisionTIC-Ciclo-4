@@ -1,0 +1,19 @@
+{
+  "name": "semana-2",
+  "version": "1.0.0",
+  "description": "Proyecto de Ejemplo de NodeJS",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "javascript",
+    "import"
+  ],
+  "author": "Jairo Armando",
+  "license": "ISC",
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
