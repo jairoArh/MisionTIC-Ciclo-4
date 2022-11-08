@@ -1,0 +1,24 @@
+{
+  "name": "semana-5",
+  "version": "1.0.0",
+  "description": "Proyecto de Incio de NodeJS con Express",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NodeJS",
+    "Express"
+  ],
+  "author": "Jairo Armando",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
