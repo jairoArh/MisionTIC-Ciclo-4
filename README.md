@@ -24,6 +24,16 @@ Repositorio para los ejemplos del `Ciclo 4` **Desarrollo Web** de la Formación 
 
 - Microservicios
 
+En la carpeta de esta semana, existen dos carpetas (`backend`y `frontend`). En la primera se encuentra lo relacionado a la configuración del servidor con `NodeJS` y `Express` el puerto por el que escucha las peticiones es el __8080__.
+
+En la carpeta `frontend` se tiene una aplicación de react para un CRUD de libros, corre por el puerto __3000__.
+
+Para instalar los módulos, en cada carpera usar:
+
+```bash
+npm install
+```
+
 ## Semana 6
 
 - MERN

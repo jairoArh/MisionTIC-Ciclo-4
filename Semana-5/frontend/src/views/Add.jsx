@@ -6,8 +6,6 @@ export const Add = () => {
   const [newBook, setNewBook] = useState(false);
   const [dataBooks, setDataBooks] = useState([]);
   
-  
-  
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -20,7 +18,7 @@ export const Add = () => {
 
   const getData = () => {
     try {
-      fetch("http://localhost:4000/books")
+      fetch("http://localhost:8080/books")
         .then((resp) => resp.json())
         .then((resp) => {
           if (resp.data) {
@@ -44,7 +42,7 @@ export const Add = () => {
       release,
     });
 
-    fetch("http://localhost:4000/books", {
+    fetch("http://localhost:8080/books", {
       method: "POST",
       body: dataBook,
       headers: {

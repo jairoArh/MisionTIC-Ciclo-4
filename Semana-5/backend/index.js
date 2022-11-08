@@ -6,7 +6,7 @@ const path = require('path')
 const app = express()
 
 //settings
-app.set('port',process.env.PORT || 3000 )
+app.set('port',process.env.PORT || 8080 )
 
 //Middlewares
 app.use(cors())

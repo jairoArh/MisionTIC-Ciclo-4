@@ -1,25 +1,23 @@
 import { useState, useEffect } from "react";
 
-// Arreglar con respecto a Add.jsx
-function GetData() {
-  const [data, setData] = useState([]);
+export const List = () => {
+  const [dataBooks, setDataBooks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/books")
-      .then((resp) => resp.json())
-      .then((resp) => setData(resp))
-      .catch((err) => console.log(err));
+    getData();
   }, []);
 
-  return data.state ? data.data : [];
-}
+  function getData() {
+    fetch("http://localhost:8080/books")
+      .then((resp) => resp.json())
+      .then((resp) => {
+        return setDataBooks(resp.data)})
+      .catch((err) => console.log(err));
+  }
 
-export const List = () => {
-
-    function deleteBook(id){
-        console.log(`Se va a eliminar ${id}`)
-    }
- 
+  function deleteBook(id) {
+    console.log(`Se va a eliminar ${id}`);
+  }
 
   return (
     <div className="container mt-5" align="center">
@@ -36,7 +34,7 @@ export const List = () => {
           </tr>
         </thead>
         <tbody>
-          {result.map((book) => (
+          {dataBooks.map((book) => (
             <tr key={book.id}>
               <td>{book.id}</td>
               <td>{book.title}</td>
@@ -44,8 +42,15 @@ export const List = () => {
               <td>{book.pages}</td>
               <td>{book.release}</td>
               <td>
-                <button className="btn btn-secondary" style={{margin:1}}>Modificar</button>
-                <button className="btn btn-danger" onClick={deleteBook(book.id)}>Eliminar</button>
+                <button className="btn btn-secondary" style={{ margin: 1 }}>
+                  Modificar
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={deleteBook(book.id)}
+                >
+                  Eliminar
+                </button>
               </td>
             </tr>
           ))}
