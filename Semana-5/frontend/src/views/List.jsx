@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// Arreglar con respecto a Add.jsx
 function GetData() {
   const [data, setData] = useState([]);
 
@@ -19,7 +20,6 @@ export const List = () => {
         console.log(`Se va a eliminar ${id}`)
     }
  
-  const result = GetData();
 
   return (
     <div className="container mt-5" align="center">

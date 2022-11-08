@@ -1,46 +1,61 @@
 import { useEffect, useState } from "react";
-
-function GetData() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:4000/books")
-      .then((resp) => resp.json())
-      .then((resp) => setData(resp))
-      .catch((err) => console.log(err));
-  }, []);
-
-  return data.state ? data.data : [];
-}
+import { Table } from "../components/Table";
 
 export const Add = () => {
+
+  const [newBook, setNewBook] = useState(false);
+  const [dataBooks, setDataBooks] = useState([]);
+  
+  
+  
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [pages, setPages] = useState("");
   const [release, setRelease] = useState("");
 
-  const result = GetData();
+  useEffect(() => {
+    getData();
+  }, [newBook]);
+
+  const getData = () => {
+    try {
+      fetch("http://localhost:4000/books")
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.data) {
+            setDataBooks(resp.data);
+          }
+        })
+        .catch((err) => console.log(err));        
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   function sending(event) {
     event.preventDefault();
-    const data = JSON.stringify({id,title,author,pages,release})
 
-    fetch('http://localhost:4000/books',{
-                method:"POST",
-                body:data,
-                headers: {
-                'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }).then(resp => resp.json())
-                .then(resp => {
-                   if( resp.state ){
-                    result = GetData()
-                   }else{
-                    alert('Id Repetido')
-                   }
-                })
+    const dataBook = JSON.stringify({
+      id,
+      title,
+      author,
+      pages,
+      release,
+    });
+
+    fetch("http://localhost:4000/books", {
+      method: "POST",
+      body: dataBook,
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then(() => {
+        setNewBook(true);
+      })
+      .catch((err) => console.log("Ocurrio un error al guardar: ", err));
   }
 
   return (
@@ -87,7 +102,7 @@ export const Add = () => {
             </label>
             <input
               type="number"
-              onChange={(e)=>setPages(e.target.value)}
+              onChange={(e) => setPages(e.target.value)}
               className="form-control"
             />
           </div>
@@ -98,7 +113,7 @@ export const Add = () => {
             </label>
             <input
               type="date"
-              onChange={(e)=>setRelease(e.target.value)}
+              onChange={(e) => setRelease(e.target.value)}
               className="form-control"
             />
           </div>
@@ -107,26 +122,7 @@ export const Add = () => {
       </form>
 
       <div className="row mt-5">
-        <table className="table table-striped">
-          <thead>
-            <tr>
-              <td>Título</td>
-              <td>Autor</td>
-              <td>Páginas</td>
-              <td>Lanzamiento</td>
-            </tr>
-          </thead>
-          <tbody className="table-group-divider">
-            {result.map((book) => (
-              <tr key={book.id}>
-                <td>{book.title}</td>
-                <td>{book.author}</td>
-                <td>{book.pages}</td>
-                <td>{book.release}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table books={dataBooks} />
       </div>
     </div>
   );
