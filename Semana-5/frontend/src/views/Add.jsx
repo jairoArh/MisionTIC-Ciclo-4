@@ -31,6 +31,14 @@ export const Add = () => {
     }
   };
 
+  function cleanFields(){
+    setId("")
+    setTitle("")
+    setAuthor("")
+    setPages("")
+    setRelease("")
+  }
+
   function sending(event) {
     event.preventDefault();
 
@@ -50,8 +58,17 @@ export const Add = () => {
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-      .then(() => {
-        setNewBook(true);
+      .then((resp) => resp.json())
+      .then( resp => {
+        console.log(resp)
+        if( resp.state){
+          alert('Se ha Insertado el Registro')
+          setNewBook(true)
+          cleanFields()
+        }else{
+          alert('El Id ya se ha Registrado')
+        }
+        
       })
       .catch((err) => console.log("Ocurrio un error al guardar: ", err));
   }
@@ -69,6 +86,7 @@ export const Add = () => {
               type="number"
               onChange={(e) => setId(e.target.value)}
               className="form-control"
+              value={id}
             />
           </div>
 
@@ -80,6 +98,7 @@ export const Add = () => {
               type="text"
               onChange={(e) => setTitle(e.target.value)}
               className="form-control"
+              value={title}
             />
           </div>
 
@@ -91,6 +110,7 @@ export const Add = () => {
               type="text"
               onChange={(e) => setAuthor(e.target.value)}
               className="form-control"
+              value={author}
             />
           </div>
 
@@ -102,6 +122,7 @@ export const Add = () => {
               type="number"
               onChange={(e) => setPages(e.target.value)}
               className="form-control"
+              value={pages}
             />
           </div>
 
@@ -113,6 +134,7 @@ export const Add = () => {
               type="date"
               onChange={(e) => setRelease(e.target.value)}
               className="form-control"
+              value={release}
             />
           </div>
           <button className="col-12 mt-3 btn btn-primary">Enviar</button>

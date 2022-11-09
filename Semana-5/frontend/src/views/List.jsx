@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 
 export const List = () => {
+  const [updateBooks,setUpdateBooks] = useState(false)
   const [dataBooks, setDataBooks] = useState([]);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [updateBooks]);
 
   function getData() {
     fetch("http://localhost:8080/books")
@@ -16,7 +17,16 @@ export const List = () => {
   }
 
   function deleteBook(id) {
-    console.log(`Se va a eliminar ${id}`);
+    fetch(`http://localhost:8080/books/${id}`,{
+      method:"DELETE"
+    })
+    .then(resp => resp.json())
+    .then (resp => {
+      if( resp.state ){
+        alert(`Se ha Eliminado ${resp.data}`)
+        setUpdateBooks(true)
+      }
+    })
   }
 
   return (
@@ -47,7 +57,7 @@ export const List = () => {
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={deleteBook(book.id)}
+                  onClick={()=>deleteBook(book.id)}
                 >
                   Eliminar
                 </button>

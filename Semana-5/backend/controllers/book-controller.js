@@ -47,9 +47,9 @@ module.exports = {
     erase: (req,res)=>{
         const {id} = req.params
 
-        if( books.has(parseInt(id))){
-            const book = books.get(parseInt(id))
-            books.delete(parseInt(id))
+        if( books.has(id)){
+            const book = books.get(id)
+            books.delete(id)
 
             return res.status(200).json({state:true,data:book})
 
