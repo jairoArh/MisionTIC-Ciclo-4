@@ -2,20 +2,17 @@ const router = require("express").Router();
 
 const {
   findAll,
-  findById,
-  save,
-  update,
-  erase
-} = require("../controllers/book-controller");
+  save
+} = require("../controllers/book-controller-db");
 
 router.get("/", findAll);
 
-router.get("/:id", findById);
+router.post("/:id", save);
 
-router.post("/", save);
+/*router.get("/:id", findById);
 
 router.put('/:idAux',update)
 
-router.delete('/:id',erase)
+router.delete('/:id',erase)*/
 
 module.exports = router;

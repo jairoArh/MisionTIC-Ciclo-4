@@ -60,7 +60,6 @@ export const Add = () => {
     })
       .then((resp) => resp.json())
       .then( resp => {
-        console.log(resp)
         if( resp.state){
           alert('Se ha Insertado el Registro')
           setNewBook(true)

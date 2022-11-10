@@ -5,6 +5,9 @@ const path = require('path')
 
 const app = express()
 
+//Connect DB
+require('./drivers/driver-mongoose')
+
 //settings
 app.set('port',process.env.PORT || 8080 )
 
@@ -13,6 +16,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/books',require('./routes/route-books'))
+app.use('/authors',require('./routes/route-authors'))
 
 app.get('/',(req,res)=>{
     return res.sendFile(path.join(__dirname,'create.html'))
