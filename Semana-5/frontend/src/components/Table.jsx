@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const Table = ({ books = []}) => {
+
   return (
     <table className="table table-striped">
           <thead>

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Table } from "../components/Table";
 
 export const Add = () => {
-
   const [newBook, setNewBook] = useState(false);
   const [dataBooks, setDataBooks] = useState([]);
-  
+  const [dataAuthors, setDataAuthors] = useState([]);
+
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -14,6 +14,7 @@ export const Add = () => {
 
   useEffect(() => {
     getData();
+    loadAuthors();
   }, [newBook]);
 
   const getData = () => {
@@ -25,18 +26,33 @@ export const Add = () => {
             setDataBooks(resp.data);
           }
         })
-        .catch((err) => console.log(err));        
+        .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
     }
   };
 
-  function cleanFields(){
-    setId("")
-    setTitle("")
-    setAuthor("")
-    setPages("")
-    setRelease("")
+  function loadAuthors() {
+    try {
+      fetch("http://localhost:8080/authors")
+        .then((resp) => resp.json())
+        .then((resp) => {
+          if (resp.data) {
+            setDataAuthors(resp.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function cleanFields() {
+    setId("");
+    setTitle("");
+    setAuthor("");
+    setPages("");
+    setRelease("");
   }
 
   function sending(event) {
@@ -45,12 +61,13 @@ export const Add = () => {
     const dataBook = JSON.stringify({
       id,
       title,
-      author,
       pages,
       release,
     });
 
-    fetch("http://localhost:8080/books", {
+    console.log(`Se va a enviar ${dataBook}`)
+
+    fetch(`http://localhost:8080/books/${author}`, {
       method: "POST",
       body: dataBook,
       headers: {
@@ -59,15 +76,14 @@ export const Add = () => {
       },
     })
       .then((resp) => resp.json())
-      .then( resp => {
-        if( resp.state){
-          alert('Se ha Insertado el Registro')
-          setNewBook(true)
-          cleanFields()
-        }else{
-          alert('El Id ya se ha Registrado')
+      .then((resp) => {
+        if (resp.state) {
+          alert("Se ha Insertado el Registro");
+          setNewBook(true);
+          cleanFields();
+        } else {
+          alert("El Id ya se ha Registrado");
         }
-        
       })
       .catch((err) => console.log("Ocurrio un error al guardar: ", err));
   }
@@ -105,12 +121,14 @@ export const Add = () => {
             <label for="author" className="form-label">
               Autor
             </label>
-            <input
-              type="text"
-              onChange={(e) => setAuthor(e.target.value)}
-              className="form-control"
-              value={author}
-            />
+            <select className="form-select" onChange={(e)=>setAuthor(e.target.value)}>
+              <option>Seleccione....</option>
+              {dataAuthors.map((author) => (
+                <option key={author.id} value={author._id}>
+                  {author.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div className="col-4 col-sm-2">
